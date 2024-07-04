@@ -1,7 +1,10 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+
+require('dotenv').config();
 const port = process.env.PORT || 3000;
+const weatherApi = process.env.WEATHER_API;
 
 app.get('/api/hello', async (req, res) => {
   const visitorName = req.query.visitor_name || 'Mark';
@@ -14,7 +17,7 @@ app.get('/api/hello', async (req, res) => {
     const locationName = locationFromIP.data.city;
 
     //Get Temperature from external API
-    const weatherDetails = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&units=metric&appid=efc066ca2bf26a7569ad69a8ae5665b4`);
+    const weatherDetails = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${locationName}&units=metric&appid=${weatherApi}`);
     const temperature = weatherDetails.data.main.temp;
 
     res.json({
